@@ -1,9 +1,6 @@
 {
   "buildCommand": "CI=false react-scripts build",
   "outputDirectory": "build",
-  "engines": {
-    "node": "18.x"
-  },
   "rewrites": [
     { "source": "/api/:path*", "destination": "/api/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }

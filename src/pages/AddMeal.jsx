@@ -20,10 +20,19 @@ export default function AddMeal({ today, addEntry, addFavorite, favorites }) {
   function handleChange(k, v) { setForm(f => ({ ...f, [k]: v })); }
 
   function handleSubmit() {
-    if (!form.name || !form.kcal) return alert('Name und Kalorien sind Pflicht!');
-    addEntry(today, { name: form.name, kcal: parseFloat(form.kcal) || 0, protein: parseFloat(form.protein) || 0, carbs: parseFloat(form.carbs) || 0, fat: parseFloat(form.fat) || 0, grams: parseFloat(form.grams) || null });
-    navigate('/');
-  }
+  if (!form.name || !form.kcal) return alert('Name und Kalorien sind Pflicht!');
+  const grams = parseFloat(form.grams) || null;
+  const factor = grams ? grams / 100 : 1;
+  addEntry(today, {
+    name: form.name,
+    kcal: Math.round((parseFloat(form.kcal) || 0) * factor),
+    protein: Math.round((parseFloat(form.protein) || 0) * factor * 10) / 10,
+    carbs: Math.round((parseFloat(form.carbs) || 0) * factor * 10) / 10,
+    fat: Math.round((parseFloat(form.fat) || 0) * factor * 10) / 10,
+    grams: grams
+  });
+  navigate('/');
+}
 
   function handleSaveFav() {
     if (!form.name || !form.kcal) return alert('Name und Kalorien eintragen!');
